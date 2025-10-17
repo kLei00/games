@@ -70,7 +70,7 @@ class Hand {
     addCard(drawnCard) {
         this.cards.push(drawnCard)
     }
-    
+
     empty() {
         this.cards = [];
     }
@@ -103,9 +103,16 @@ const cardElement = document.getElementById('cardElement');
 const deckInfo = document.getElementById('deckInfo');
 const cardValueBtm = document.getElementById('cardValueBtm');
 
+const computerScore = document.getElementById('computerWin');
+const playerScore = document.getElementById('playerWin');
+const currentStreak = document.getElementById('currentStreak');
+
 let gameDeck = new Deck();
 let computerHand = new Hand();
 let playerHand = new Hand();
+let computerWins = 0;
+let playerWins = 0;
+let winStreak = 0;
 
 // render cards and total score in hand
 function displayHand(hand, areaElement, hideFirstCard = false) {
@@ -125,8 +132,8 @@ function displayHand(hand, areaElement, hideFirstCard = false) {
             listItem.style.backgroundColor = '#8c8c8c';
             listItem.style.color = 'white';
             listItem.innerHTML = `
-                    <div>BACK</div>
-                    <small>Hidden</small>
+                    <div>CARD</div>
+                    <small>HIDDEN</small>
                 `;
         } else {
             listItem.classList.add(card.color);
@@ -177,6 +184,8 @@ function clearDisplay() {
 // plays game
 function play() {
     // Reset state
+    hitButton.disabled = false;
+    stayButton.disabled = false;
     clearDisplay();
     gameDeck.initialize();
     gameDeck.shuffle();
@@ -188,39 +197,18 @@ function play() {
     initializeGame(computerHand, playerHand, gameDeck);
 }
 
-function hit()
-{
-    document.getElementById('resultText').textContent = "Player turn: Hit or Stay?";
+function hit() {
     const card = gameDeck.deal();
     displayDrawnCard(card);
     playerHand.addCard(card);
     displayHand(playerHand, PlayerHandArea);
 
-    if(computerHand.getTotalValue >= 17)
-        document.getElementById('resultText').textContent = "Dealer Stays";
-    else {
-        document.getElementById('resultText').textContent = "Dealer's Turn";
-        card = gameDeck.deal();
-        displayDrawnCard(card);
-        computerHand.addCard(card);
-        displayHand(computerHand, ComputerHandArea);
-    }
-
-    document.getElementById('resultText').textContent = "Player turn: Hit or Stay?";
-
-    window.computerHand = computerHand;
-    window.playerHand = playerHand;
-
-    setTimeout(() => {
-        document.getElementById('cardValue').textContent = '';
-        document.getElementById('cardSymbol').textContent = '?';
-        document.getElementById('cardValueBtm').textContent = '';
-        cardElement.className = 'card';
-    }, 500);
+    // player bust?
+    if (playerHand.getTotalValue() > 21)
+        endGame();
 }
 
-function initializeGame(computerHand, playerHand, gameDeck)
-{
+function initializeGame(computerHand, playerHand, gameDeck) {
     // Initializing game
     // Deal 2 cards to each player alternately
     for (let i = 0; i < 4; i++) {
@@ -253,8 +241,51 @@ function initializeGame(computerHand, playerHand, gameDeck)
     }, 500);
 }
 
-function endGame(computerHand, playerHand) {
-    
+function endGame() {
+    // player bust
+    if (playerHand.getTotalValue() > 21) {
+        document.getElementById('resultText').textContent = "Bust! Dealer Wins.";
+        computerWins++;
+        winStreak = 0;
+    }
+    else {
+        while (computerHand.getTotalValue() <= 17) {
+            const card = gameDeck.deal();
+            displayDrawnCard(card);
+            computerHand.addCard(card);
+        }
+        displayHand(computerHand, ComputerHandArea);
+        
+        // computer bust
+        if(computerHand.getTotalValue() > 21) {
+            document.getElementById('resultText').textContent = "Dealer Busts! Player Wins.";
+            playerWins++;
+            winStreak++;
+        }
+        else {
+            if(21 - computerHand.getTotalValue() < 21 - playerHand.getTotalValue()) {
+                document.getElementById('resultText').textContent = "Dealer Wins.";
+                computerWins++;
+                winStreak = 0;
+            }
+            else if(21 - computerHand.getTotalValue() > 21 - playerHand.getTotalValue()) {
+                document.getElementById('resultText').textContent = "Player Wins.";
+                playerWins++;
+                winStreak++;
+            }
+            else {
+                document.getElementById('resultText').textContent = "Push! No one wins.";
+            }
+        }
+    }
+
+    computerScore.textContent = computerWins;
+    playerScore.textContent = playerWins;
+    currentStreak.textContent = winStreak;
+
+    document.getElementById('resultText').textContent = "Play again?";
+    hitButton.disabled = true;
+    stayButton.disabled = true;
 }
 
 playButton.addEventListener('click', play);
