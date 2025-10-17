@@ -92,6 +92,7 @@ class Hand {
 
 const hitButton = document.getElementById('hitButton');
 const stayButton = document.getElementById('stayButton');
+const playButton = document.getElementById('playButton');
 const ComputerHandArea = document.getElementById('ComputerHandArea');
 const PlayerHandArea = document.getElementById('PlayerHandArea');
 const cardElement = document.getElementById('cardElement');
@@ -109,7 +110,6 @@ function displayHand(hand, areaElement, hideFirstCard = false) {
     cardList.classList.add('card-list');
 
     hand.cards.forEach((card, index) => {
-        // hide first card dealt (dealer card)
         const isHidden = hideFirstCard && index === 0;
 
         const listItem = document.createElement('li');
@@ -171,7 +171,7 @@ function clearDisplay() {
 
 // plays game
 function play() {
-    // reset state
+    // Reset state
     clearDisplay();
     gameDeck.initialize();
     gameDeck.shuffle();
@@ -182,7 +182,7 @@ function play() {
     const computerHand = new Hand();
     const playerHand = new Hand();
 
-    // deal 2 cards to each player alternately
+    // Deal 2 cards to each player alternately
     for (let i = 0; i < 4; i++) {
         const card = gameDeck.deal();
         if (!card) break;
@@ -190,12 +190,12 @@ function play() {
         displayDrawnCard(card);
 
         if (i % 2 === 0) {
-            // deal to computer
+            // Deal to Dealer
             computerHand.addCard(card);
             displayHand(computerHand, ComputerHandArea, true);
         }
         else {
-            // deal to player
+            // Deal to Player
             playerHand.addCard(card);
             displayHand(playerHand, PlayerHandArea);
         }
@@ -213,7 +213,7 @@ function play() {
     }, 500);
 }
 
-hitButton.addEventListener('click', play);
+playButton.addEventListener('click', play);
 
 window.onload = clearDisplay;
 

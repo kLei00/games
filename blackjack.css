@@ -156,7 +156,8 @@ h2 {
 }
 
 #hitButton,
-#stayButton {
+#stayButton,
+#playButton {
     padding: 12px 25px;
     font-size: 1.1em;
     font-weight: 700;
@@ -178,12 +179,21 @@ h2 {
     color: white;
 }
 
+#playButton {
+    background: linear-gradient(145deg, #06d7e6, #059dc4);
+    color: white;
+}
+
 #hitButton:hover {
     background: linear-gradient(145deg, #0beb30, #10991c);
 }
 
 #stayButton:hover {
     background: linear-gradient(145deg, #be2408, #d3251f);
+}
+
+#playButton:hover {
+    background: linear-gradient(145deg, #17cbeb, #12c7df);
 }
 
 #hitButton:active {
@@ -195,6 +205,12 @@ h2 {
     transform: translateY(2px);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
+
+#playButton:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
 
 #hitButton:disabled {
     background: #95a5a6;
@@ -208,6 +224,11 @@ h2 {
     box-shadow: none;
 }
 
+#playButton:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+    box-shadow: none;
+}
 
 .scoreboard {
     display: flex;
