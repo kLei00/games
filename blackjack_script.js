@@ -109,6 +109,7 @@ function displayHand(hand, areaElement, hideFirstCard = false) {
     cardList.classList.add('card-list');
 
     hand.cards.forEach((card, index) => {
+        // hide first card dealt (dealer card)
         const isHidden = hideFirstCard && index === 0;
 
         const listItem = document.createElement('li');
@@ -170,7 +171,7 @@ function clearDisplay() {
 
 // plays game
 function play() {
-    // Reset state
+    // reset state
     clearDisplay();
     gameDeck.initialize();
     gameDeck.shuffle();
@@ -181,7 +182,7 @@ function play() {
     const computerHand = new Hand();
     const playerHand = new Hand();
 
-    // Deal 2 cards to each player alternately
+    // deal 2 cards to each player alternately
     for (let i = 0; i < 4; i++) {
         const card = gameDeck.deal();
         if (!card) break;
@@ -189,12 +190,12 @@ function play() {
         displayDrawnCard(card);
 
         if (i % 2 === 0) {
-            // Deal to Dealer
+            // deal to computer
             computerHand.addCard(card);
             displayHand(computerHand, ComputerHandArea, true);
         }
         else {
-            // Deal to Player
+            // deal to player
             playerHand.addCard(card);
             displayHand(playerHand, PlayerHandArea);
         }
