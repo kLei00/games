@@ -176,12 +176,48 @@ function play() {
     gameDeck.initialize();
     gameDeck.shuffle();
 
-    stayButton.disabled = false;
     document.getElementById('resultText').textContent = "Player turn: Hit or Stay?";
 
     const computerHand = new Hand();
     const playerHand = new Hand();
+    initializeGame(computerHand, playerHand, gameDeck);
 
+    hitButton.addEventListener('click', hit(computerHand, playerHand, gameDeck));
+    stayButton.addEventListener('click', endGame);
+}
+
+function hit(computerHand, playerHand, gameDeck)
+{
+    document.getElementById('resultText').textContent = "Player turn: Hit or Stay?";
+    const card = gameDeck.deal();
+    displayDrawnCard(card);
+    playerHand.addCard(card);
+    displayHand(playerHand, PlayerHandArea);
+
+    if(computerHand.getTotalValue >= 17)
+        document.getElementById('resultText').textContent = "Dealer Stays";
+    else {
+        document.getElementById('resultText').textContent = "Dealer's Turn";
+        card = gameDeck.deal();
+        displayDrawnCard(card);
+        computerHand.addCard(card);
+        displayHand(computerHand, ComputerHandArea);
+    }
+
+    window.computerHand = computerHand;
+    window.playerHand = playerHand;
+
+    setTimeout(() => {
+        document.getElementById('cardValue').textContent = '';
+        document.getElementById('cardSymbol').textContent = '?';
+        document.getElementById('cardValueBtm').textContent = '';
+        cardElement.className = 'card';
+    }, 500);
+}
+
+function initializeGame(computerHand, playerHand, gameDeck)
+{
+    // Initializing game
     // Deal 2 cards to each player alternately
     for (let i = 0; i < 4; i++) {
         const card = gameDeck.deal();
@@ -211,6 +247,10 @@ function play() {
         document.getElementById('cardValueBtm').textContent = '';
         cardElement.className = 'card';
     }, 500);
+}
+
+function endGame(computerHand, playerHand) {
+    
 }
 
 playButton.addEventListener('click', play);
