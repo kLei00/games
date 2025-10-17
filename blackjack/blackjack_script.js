@@ -187,6 +187,7 @@ function clearDisplay() {
 // plays game
 function play() {
     // Reset state
+    playButton.disabled = true;
     hitButton.disabled = false;
     stayButton.disabled = false;
     clearDisplay();
@@ -288,6 +289,7 @@ function endGame() {
 
     hitButton.disabled = true;
     stayButton.disabled = true;
+    playButton.disabled = false;
 }
 
 playButton.addEventListener('click', play);
