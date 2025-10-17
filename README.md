@@ -1,2 +1,2 @@
 # games
-Collection of web based games created for fun
+Collection of web based games made for fun and to practice web development
