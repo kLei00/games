@@ -105,7 +105,7 @@ const cardValueBtm = document.getElementById('cardValueBtm');
 
 const computerScore = document.getElementById('computerWin');
 const playerScore = document.getElementById('playerWin');
-const currentStreak = document.getElementById('currentStreak');
+const currentStreak = document.getElementById('winStreak');
 
 let gameDeck = new Deck();
 let computerHand = new Hand();
