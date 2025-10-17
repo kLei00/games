@@ -114,6 +114,7 @@ let computerWins = 0;
 let playerWins = 0;
 let winStreak = 0;
 
+playButton.disabled = false;
 hitButton.disabled = true;
 stayButton.disabled = true;
 
@@ -206,6 +207,7 @@ function hit() {
     displayDrawnCard(card);
     playerHand.addCard(card);
     displayHand(playerHand, PlayerHandArea);
+    deckInfo.textContent = `Deck: ${gameDeck.remaining}`;
 
     // player bust?
     if (playerHand.getTotalValue() > 21)
@@ -258,6 +260,7 @@ function endGame() {
             displayDrawnCard(card);
             computerHand.addCard(card);
         }
+        deckInfo.textContent = `Deck: ${gameDeck.remaining}`;
         displayHand(computerHand, ComputerHandArea);
         
         // computer bust
