@@ -188,7 +188,7 @@ function play() {
     initializeGame(computerHand, playerHand, gameDeck);
 }
 
-function hit(computerHand, playerHand, gameDeck)
+function hit()
 {
     document.getElementById('resultText').textContent = "Player turn: Hit or Stay?";
     const card = gameDeck.deal();
@@ -258,7 +258,7 @@ function endGame(computerHand, playerHand) {
 }
 
 playButton.addEventListener('click', play);
-hitButton.addEventListener('click', hit(computerHand, playerHand, gameDeck));
+hitButton.addEventListener('click', hit);
 stayButton.addEventListener('click', endGame);
 
 window.onload = clearDisplay;
