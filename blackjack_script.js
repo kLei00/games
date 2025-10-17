@@ -70,6 +70,10 @@ class Hand {
     addCard(drawnCard) {
         this.cards.push(drawnCard)
     }
+    
+    empty() {
+        this.cards = [];
+    }
 
     getTotalValue() {
         let totalValue = 0;
@@ -100,6 +104,8 @@ const deckInfo = document.getElementById('deckInfo');
 const cardValueBtm = document.getElementById('cardValueBtm');
 
 let gameDeck = new Deck();
+let computerHand = new Hand();
+let playerHand = new Hand();
 
 // render cards and total score in hand
 function displayHand(hand, areaElement, hideFirstCard = false) {
@@ -166,7 +172,6 @@ function clearDisplay() {
     cardElement.className = 'card';
     deckInfo.textContent = 'Deck: 52';
     document.getElementById('resultText').textContent = "Click 'Deal / Hit' to start a new game!";
-    stayButton.disabled = true;
 }
 
 // plays game
@@ -176,14 +181,11 @@ function play() {
     gameDeck.initialize();
     gameDeck.shuffle();
 
+    playerHand.empty();
+    computerHand.empty();
+
     document.getElementById('resultText').textContent = "Player turn: Hit or Stay?";
-
-    const computerHand = new Hand();
-    const playerHand = new Hand();
     initializeGame(computerHand, playerHand, gameDeck);
-
-    hitButton.addEventListener('click', hit(computerHand, playerHand, gameDeck));
-    stayButton.addEventListener('click', endGame);
 }
 
 function hit(computerHand, playerHand, gameDeck)
@@ -203,6 +205,8 @@ function hit(computerHand, playerHand, gameDeck)
         computerHand.addCard(card);
         displayHand(computerHand, ComputerHandArea);
     }
+
+    document.getElementById('resultText').textContent = "Player turn: Hit or Stay?";
 
     window.computerHand = computerHand;
     window.playerHand = playerHand;
@@ -254,6 +258,8 @@ function endGame(computerHand, playerHand) {
 }
 
 playButton.addEventListener('click', play);
+hitButton.addEventListener('click', hit(computerHand, playerHand, gameDeck));
+stayButton.addEventListener('click', endGame);
 
 window.onload = clearDisplay;
 
