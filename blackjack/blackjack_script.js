@@ -114,7 +114,6 @@ let computerWins = 0;
 let playerWins = 0;
 let winStreak = 0;
 
-playButton.disabled = false;
 hitButton.disabled = true;
 stayButton.disabled = true;
 
