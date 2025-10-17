@@ -114,6 +114,9 @@ let computerWins = 0;
 let playerWins = 0;
 let winStreak = 0;
 
+hitButton.disabled = true;
+stayButton.disabled = true;
+
 // render cards and total score in hand
 function displayHand(hand, areaElement, hideFirstCard = false) {
     const titleHtml = areaElement.querySelector('h2').outerHTML;
@@ -279,11 +282,10 @@ function endGame() {
         }
     }
 
-    computerScore.textContent = computerWins;
-    playerScore.textContent = playerWins;
-    currentStreak.textContent = winStreak;
+    computerScore.textContent = `${computerWins}`;
+    playerScore.textContent = `${playerWins}`;
+    currentStreak.textContent = `${winStreak}`;
 
-    document.getElementById('resultText').textContent = "Play again?";
     hitButton.disabled = true;
     stayButton.disabled = true;
 }
